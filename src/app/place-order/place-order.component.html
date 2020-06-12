@@ -1,0 +1,162 @@
+<header class="order-hero-header">
+    <h1>Hooray!</h1>
+    <p>We are excited to have a new superhero joining our nation!</p>
+    <p>Please fill out the form below to create an accurate version of your character.</p>
+</header>
+<div class="form-container">
+    <form [formGroup]="heroOrder" (ngSubmit)="onSubmit()">
+        <div formGroupName="requester">
+            <div class="name-group">
+                <!-- First Name -->
+                <div class="form-group">
+                    <label for="firstName">Your First Name<span class="required">*</span></label>
+                    <input formControlName="firstName" id="firstName" type="text" name="firstName" required>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label for="lastName">Your Last Name<span class="required">*</span></label>
+                    <input formControlName="lastName" id="lastName" type="text" name="lastName" required>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Your Email Address<span class="required">*</span></label>
+                <input formControlName="email" id="email" type="email" name="email" required>
+            </div>
+        </div>
+
+        <!-- Audience -->
+        <div class="form-group">
+            <fieldset>
+                <legend>I want to create a hero for:<span class="required">*</span></legend>
+                <div class="form-radio">
+                    <input formControlName="heroFor" type="radio" id="myself" name="heroFor" value="myself">
+                    <label for="myself">Myself</label>
+                </div>
+                <div class="form-radio">
+                    <input formControlName="heroFor" type="radio" id="other" name="heroFor" value="other">
+                    <label for="other">Someone Else (friend, family member, etc)</label>
+                </div>
+            </fieldset>
+        </div>
+
+        <!-- Requestee Name -->
+        <div class="form-group" *ngIf="isForSomeoneElse">
+            <label for="requesteeName">Name of the other person<span class="required">*</span></label>
+            <input formControlName="requesteeName" id="requesteeName" type="text" name="requesteeName">
+        </div>
+
+        <!-- Features -->
+        <div class="form-group" formGroupName="features">
+            <fieldset>
+                <legend>My hero will include:<span class="required">*</span></legend>
+                <div class="form-checkbox">
+                    <input formControlName="superPowers" type="checkbox" id="superPowers" name="features" value="superPowers" checked>
+                    <label for="superPowers">Superpowers + Weaknesses</label>
+                </div>
+                <div class="form-checkbox">
+                    <input formControlName="archEnemy" type="checkbox" id="archEnemy" name="features" value="archEnemy">
+                    <label for="archEnemy">Arch Enemy</label>
+                </div>
+                <div class="form-checkbox">
+                    <input formControlName="originStory" type="checkbox" id="originStory" name="features" value="originStory">
+                    <label for="originStory">Origin Story</label>
+                </div>
+            </fieldset>
+        </div>
+
+        <!-- Likes -->
+        <div class="form-group">
+            <label for="likes">List at least 3 things you (or they) love:<span class="required">*</span></label>
+            <input formControlName="likes" type="text" name="likes" id="likes" required>
+        </div>
+
+        <!-- Dislikes -->
+        <div class="form-group">
+            <label for="dislikes">List at least 3 things you (or they) hate:<span class="required">*</span></label>
+            <input formControlName="dislikes" type="text" name="dislikes" id="dislikes" required>
+        </div>
+
+        <!-- Favorite colors -->
+        <div class="form-group">
+            <label for="favoriteColors">Favorite color(s):<span class="required">*</span></label>
+            <input formControlName="favoriteColors" type="text" name="favoriteColors" id="favoriteColors">
+        </div>
+
+        <!-- Qualities -->
+        <div class="form-group" *ngIf="isAllFeatures">
+            <label for="qualities">List your (or their) major qualities:<span class="required">*</span></label>
+            <textarea formControlName="qualities" name="qualities" id="qualities" cols="30" rows="10"></textarea>
+        </div>
+
+        <!-- Habits -->
+        <div class="form-group" *ngIf="isAllFeatures">
+            <label for="habits">List some weird habits you (or they) do:<span class="required">*</span></label>
+            <textarea formControlName="habits" name="habits" id="habits" cols="30" rows="10"></textarea>
+        </div>
+
+        <!-- Product -->
+        <div class="form-group" formGroupName="products">
+            <fieldset>
+                <legend>Choose your product:<span class="required">*</span></legend>
+                <div class="form-products">
+                    <div class="form-product-col">
+                        <div class="form-checkbox">
+                            <input formControlName="poster" type="checkbox" name="products" id="poster" value="poster" checked>
+                            <label for="poster">Poster</label>
+                        </div>
+                        <div class="form-checkbox">
+                            <input formControlName="mug" type="checkbox" name="products" id="mug" value="mug">
+                            <label for="mug">Mug</label>
+                        </div>
+                        <div class="form-checkbox">
+                            <input formControlName="wood" type="checkbox" name="products" id="wood" value="wood">
+                            <label for="wood">Wood</label>
+                        </div>
+                    </div>
+                    <div class="form-product-col">
+                        <div class="form-checkbox">
+                            <input formControlName="canvas" type="checkbox" name="products" id="canvas" value="canvas">
+                            <label for="canvas">Canvas</label>
+                        </div>
+                        <div class="form-checkbox">
+                            <input formControlName="pillow" type="checkbox" name="products" id="pillow" value="pillow">
+                            <label for="pillow">Pillow</label>
+                        </div>
+                        <div class="form-checkbox">
+                            <input formControlName="tshirt" type="checkbox" name="products" id="tshirt" value="tshirt">
+                            <label for="tshirt">T-shirt</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <!-- Pictures -->
+        <div class="form-group">
+            <p>Upload pictures<span class="required">*</span></p>
+            <p class="notice">Please upload one or two pictures of the person to be drawn. It is preferable to have a close up look on the smiling face, in both 3/4 view and straight
+                on.</p>
+            <input type="file" name="images" id="images" class="custom-file-input" accept="image/*" multiple>
+            <label for="images" class="custom-file-input-label">
+                <span>
+                    <svg class="add-photo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path
+                              d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z" />
+                    </svg>
+                </span>
+                Upload files
+            </label>
+            <div id="upload-progress" class="progress-bar" style="--progress: 0">&nbsp;</div>
+            <div class="uploaded-files"></div>
+        </div>
+
+        <div class="form-action">
+            <input type="submit" value="Submit" class="btn-submit-primary"
+                   [disabled]="!heroOrder.valid" [ngClass]="{disabled: !heroOrder.valid}">
+        </div>
+    </form>
+</div>

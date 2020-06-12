@@ -1,0 +1,229 @@
+@use "src/styles"as *;
+
+/* Order Hero Header */
+
+.order-hero-header {
+  text-align: center;
+}
+
+.order-hero-header h1 {
+  color: $green;
+  text-shadow: 2px 2px 0.5px black;
+  margin-bottom: 1rem;
+  font-family: Bangers, sans-serif;
+  font-size: 300%;
+  letter-spacing: 3px;
+}
+
+.order-hero-header p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Order Hero Header End */
+
+.form-container {
+  border: 1px solid $green;
+  min-width: 375px;
+  max-width: 1100px;
+  padding: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width:1200px) {
+
+  .form-container {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+}
+
+@media screen and (max-width:576px) {
+
+  .form-container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  font-size: 85%;
+  margin-bottom: 2rem;
+}
+
+input {
+  box-sizing: border-box;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  padding: .6rem .6rem;
+  outline: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 100%;
+  border: 1px solid $light;
+  border-radius: .25rem;
+  width: 100%;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+  border-color: $green;
+}
+
+.form-group label,
+.form-group legend {
+  font-weight: 600;
+  margin-bottom: .625rem;
+}
+
+/* First & Last Name Inputs */
+
+.name-group {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.name-group .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.name-group .form-group:first-of-type {
+  margin-right: 1rem;
+}
+
+/* Checkbox & Radio */
+
+.form-checkbox label,
+.form-radio label {
+  margin-bottom: .625rem;
+  font-weight: 400;
+}
+
+.form-radio,
+.form-checkbox {
+  margin-bottom: .25rem;
+}
+
+.form-group fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.form-group legend {
+  margin-bottom: .625rem;
+}
+
+/* Product Types */
+
+.form-products {
+  display: flex;
+}
+
+.form-product-col {
+  flex: 1;
+  flex-direction: column;
+}
+
+/* Upload File */
+
+.custom-file-input {
+  display: none;
+}
+
+.form-group .custom-file-input-label {
+  color: white;
+  background-color: $green;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: .25rem;
+  font-weight: normal;
+  margin: .625rem;
+  width: 8rem;
+}
+
+.add-photo-icon {
+  fill: white;
+  width: 24px;
+  height: 24px;
+  margin-right: .25rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+
+.progress-bar::before {
+  content: '';
+  height: 20px;
+  display: flex;
+  background: #428bca;
+  border-radius: 4px;
+  width: calc(var(--progress, 0) * 1%);
+  transition: all .5s ease-in;
+}
+
+/* Submit  */
+
+.form-action {
+  display: flex;
+  font-size: 85%;
+  margin-bottom: 2rem;
+}
+
+.btn-submit-primary {
+  border: 1px solid black;
+  background-color: black;
+  color: $green;
+  padding: .5rem 1rem;
+  border-radius: .25rem;
+  font-size: .875rem;
+}
+
+.btn-submit-primary:hover {
+  color: white;
+  border: 1px solid $green;
+  background-color: $green;
+  cursor: pointer;
+}
+
+.btn-submit-primary.disabled {
+  cursor: not-allowed;
+  color: $green;
+  background-color: $light;
+  border: 1px solid $light;
+}
+
+/* Misc */
+
+.required {
+  color: red;
+  font-weight: bold;
+  font-size: 85%;
+}
+
+.required::before {
+  content: ' ';
+}
+
+.notice {
+  font-size: 90%;
+  margin-top: 0;
+}
