@@ -158,6 +158,10 @@ button {
   fill: currentColor;
 }
 
+.menu-toggle:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 576px) {
   .btn-menu {
     opacity: 1;

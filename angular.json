@@ -32,8 +32,7 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/jquery.cycle2/src/jquery.cycle2.min.js",
-              "src/js/jquery.declarativeToggle.min.js"
+              "node_modules/jquery.cycle2/src/jquery.cycle2.min.js"
             ]
           },
           "configurations": {
