@@ -8,22 +8,26 @@
         <div formGroupName="requester">
             <div class="name-group">
                 <!-- First Name -->
-                <div class="form-group">
+                <div class="form-group" [class.error]="hasError(firstName)">
                     <label for="firstName">Your First Name<span class="required">*</span></label>
                     <input formControlName="firstName" id="firstName" type="text" name="firstName" required>
+                    <div class="form-error" *ngIf="hasError(firstName)">First Name is required.</div>
                 </div>
 
                 <!-- Last Name -->
-                <div class="form-group">
-                    <label for="lastName">Your Last Name<span class="required">*</span></label>
+                <div class="form-group" [class.error]="hasError(lastName)">
+                    <label for=" lastName">Your Last Name<span class="required">*</span></label>
                     <input formControlName="lastName" id="lastName" type="text" name="lastName" required>
+                    <div class="form-error" *ngIf="hasError(lastName)">Last Name is required.</div>
                 </div>
             </div>
 
             <!-- Email -->
-            <div class="form-group">
+            <div class="form-group" [class.error]="hasError(email)">
                 <label for="email">Your Email Address<span class="required">*</span></label>
                 <input formControlName="email" id="email" type="email" name="email" required>
+                <div class="form-error" *ngIf="hasError(email) && email.errors.required">Email is required.</div>
+                <div class="form-error" *ngIf="hasError(email) && email.errors.email">Please enter a valid email address!</div>
             </div>
         </div>
 
@@ -68,21 +72,24 @@
         </div>
 
         <!-- Likes -->
-        <div class="form-group">
+        <div class="form-group" [class.error]="hasError(likes)">
             <label for="likes">List at least 3 things you (or they) love:<span class="required">*</span></label>
             <input formControlName="likes" type="text" name="likes" id="likes" required>
+            <div class="form-error" *ngIf="hasError(likes)">This is a required field.</div>
         </div>
 
         <!-- Dislikes -->
-        <div class="form-group">
+        <div class="form-group" [class.error]="hasError(dislikes)">
             <label for="dislikes">List at least 3 things you (or they) hate:<span class="required">*</span></label>
             <input formControlName="dislikes" type="text" name="dislikes" id="dislikes" required>
+            <div class="form-error" *ngIf="hasError(dislikes)">This is a required field.</div>
         </div>
 
         <!-- Favorite colors -->
-        <div class="form-group">
+        <div class="form-group" [class.error]="hasError(favoriteColors)">
             <label for="favoriteColors">Favorite color(s):<span class="required">*</span></label>
-            <input formControlName="favoriteColors" type="text" name="favoriteColors" id="favoriteColors">
+            <input formControlName="favoriteColors" type="text" name="favoriteColors" id="favoriteColors" required>
+            <div class="form-error" *ngIf="hasError(favoriteColors)">This is a required field.</div>
         </div>
 
         <!-- Qualities -->
@@ -157,6 +164,10 @@
         <div class="form-action">
             <input type="submit" value="Submit" class="btn-submit-primary"
                    [disabled]="!heroOrder.valid" [ngClass]="{disabled: !heroOrder.valid}">
+        </div>
+
+        <div class="form-error" *ngIf="!heroOrder.valid">
+            Please correct errors before placing your order.
         </div>
     </form>
 </div>

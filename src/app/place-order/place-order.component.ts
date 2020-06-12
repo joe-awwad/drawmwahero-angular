@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 @Component({
   selector: 'app-place-order',
   templateUrl: './place-order.component.html',
@@ -10,6 +10,30 @@ export class PlaceOrderComponent implements OnInit {
   heroOrder: FormGroup;
 
   constructor(private forms: FormBuilder) { }
+
+  get firstName() {
+    return this.heroOrder.get('requester.firstName');
+  }
+
+  get lastName() {
+    return this.heroOrder.get('requester.lastName');
+  }
+
+  get email() {
+    return this.heroOrder.get('requester.email');
+  }
+
+  get likes() {
+    return this.heroOrder.get('likes');
+  }
+
+  get dislikes() {
+    return this.heroOrder.get('dislikes');
+  }
+
+  get favoriteColors() {
+    return this.heroOrder.get('favoriteColors');
+  }
 
   get isForSomeoneElse() {
     return this.heroOrder.value.heroFor === 'other';
@@ -28,13 +52,16 @@ export class PlaceOrderComponent implements OnInit {
     console.log(this.heroOrder.value);
   }
 
+  hasError(control: AbstractControl): boolean {
+    return control.invalid && (control.dirty || control.touched);
+  }
 
   private createHeroOrderForm(): FormGroup {
     return this.forms.group({
       requester: this.forms.group({
-        firstName: this.forms.control('', [Validators.required]),
+        firstName: this.forms.control('', Validators.required),
         lastName: this.forms.control('', Validators.required),
-        email: this.forms.control('', Validators.required)
+        email: this.forms.control('', [Validators.required, Validators.email])
       }),
       heroFor: this.forms.control('myself'),
       requesteeName: this.forms.control(''),
@@ -45,7 +72,7 @@ export class PlaceOrderComponent implements OnInit {
       }),
       likes: this.forms.control('', Validators.required),
       dislikes: this.forms.control('', Validators.required),
-      favoriteColors: this.forms.control(''),
+      favoriteColors: this.forms.control('', Validators.required),
       qualities: this.forms.control(''),
       habits: this.forms.control(''),
       products: this.forms.group({

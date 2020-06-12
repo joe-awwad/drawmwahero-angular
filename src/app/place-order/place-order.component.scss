@@ -78,6 +78,18 @@ input {
   border-color: $green;
 }
 
+.form-group.error input[type="text"],
+.form-group.error input[type="email"],
+.form-group.error textarea {
+  border: 1px solid red;
+}
+
+.form-error {
+  color: red;
+  margin-top: 5px;
+  font-size: 95%;
+}
+
 .form-group label,
 .form-group legend {
   font-weight: 600;
