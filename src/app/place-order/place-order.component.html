@@ -4,7 +4,7 @@
     <p>Please fill out the form below to create an accurate version of your character.</p>
 </header>
 <div class="form-container">
-    <form [formGroup]="heroOrder" (ngSubmit)="onSubmit()">
+    <form [formGroup]="heroOrder" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <div formGroupName="requester">
             <div class="name-group">
                 <!-- First Name -->
@@ -146,8 +146,10 @@
             <p>Upload pictures<span class="required">*</span></p>
             <p class="notice">Please upload one or two pictures of the person to be drawn. It is preferable to have a close up look on the smiling face, in both 3/4 view and straight
                 on.</p>
-            <input type="file" name="images" id="images" class="custom-file-input" accept="image/*" multiple>
-            <label for="images" class="custom-file-input-label">
+            <input type="file" name="image" id="image" class="custom-file-input"
+                   accept="image/*"
+                   (change)="onImageSelected($event)">
+            <label for="image" class="custom-file-input-label">
                 <span>
                     <svg class="add-photo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
                         <path d="M0 0h24v24H0z" fill="none" />
@@ -155,10 +157,19 @@
                               d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z" />
                     </svg>
                 </span>
-                Upload files
+                Upload Image
             </label>
-            <div id="upload-progress" class="progress-bar" style="--progress: 0">&nbsp;</div>
-            <div class="uploaded-files"></div>
+            <div class="uploaded-files">
+                <div class="file-entry" *ngFor="let image of images.controls; let i=index">
+                    <button type="button" (click)="onRemoveImage(i)">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                        </svg>
+                    </button>
+                    <p>{{image.value.name}}</p>
+                </div>
+            </div>
         </div>
 
         <div class="form-action">
@@ -166,7 +177,7 @@
                    [disabled]="!heroOrder.valid" [ngClass]="{disabled: !heroOrder.valid}">
         </div>
 
-        <div class="form-error" *ngIf="!heroOrder.valid">
+        <div class="form-error" *ngIf="hasError(heroOrder)">
             Please correct errors before placing your order.
         </div>
     </form>

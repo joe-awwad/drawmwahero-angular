@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
+
 @Component({
   selector: 'app-place-order',
   templateUrl: './place-order.component.html',
@@ -35,6 +36,10 @@ export class PlaceOrderComponent implements OnInit {
     return this.heroOrder.get('favoriteColors');
   }
 
+  get images(): FormArray {
+    return this.heroOrder.get('images') as FormArray;
+  }
+
   get isForSomeoneElse() {
     return this.heroOrder.value.heroFor === 'other';
   }
@@ -54,6 +59,26 @@ export class PlaceOrderComponent implements OnInit {
 
   hasError(control: AbstractControl): boolean {
     return control.invalid && (control.dirty || control.touched);
+  }
+
+  onRemoveImage(index: number) {
+    this.images.removeAt(index);
+  }
+
+  onImageSelected(event) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.images.push(this.forms.group({
+          name: this.forms.control(file.name),
+          type: this.forms.control(file.type),
+          encoding: reader.result.toString().split(',')[0].split(';')[1],
+          value: this.forms.control(reader.result.toString().split(',')[1])
+        }));
+      };
+    }
   }
 
   private createHeroOrderForm(): FormGroup {
@@ -82,7 +107,8 @@ export class PlaceOrderComponent implements OnInit {
         canvas: this.forms.control(false),
         pillow: this.forms.control(false),
         tshirt: this.forms.control(false),
-      })
+      }),
+      images: this.forms.array([], Validators.required)
     });
   }
 }

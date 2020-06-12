@@ -163,7 +163,7 @@ input {
   border-radius: .25rem;
   font-weight: normal;
   margin: .625rem;
-  width: 8rem;
+  width: 9rem;
 }
 
 .add-photo-icon {
@@ -176,6 +176,7 @@ input {
 .progress-bar {
   width: 100%;
   height: 20px;
+  margin-bottom: 4px;
   background-color: #f5f5f5;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
@@ -190,6 +191,32 @@ input {
   border-radius: 4px;
   width: calc(var(--progress, 0) * 1%);
   transition: all .5s ease-in;
+}
+
+.file-entry {
+  display: flex;
+  max-height: 24px;
+  align-items: center;
+}
+
+.file-entry button {
+  border: none;
+  max-height: 34px;
+  background-color: white;
+  padding: 0;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.file-entry button:focus {
+  border: none;
+  outline: none;
+}
+
+.file-entry svg {
+  vertical-align: middle;
+  fill: currentColor;
+  color: $green;
 }
 
 /* Submit  */
@@ -214,6 +241,7 @@ input {
   border: 1px solid $green;
   background-color: $green;
   cursor: pointer;
+  outline: none;
 }
 
 .btn-submit-primary.disabled {
