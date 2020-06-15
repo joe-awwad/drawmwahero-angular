@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { PlaceOrderService } from './place-order.service';
 
 @Component({
   selector: 'app-place-order',
@@ -10,7 +11,11 @@ export class PlaceOrderComponent implements OnInit {
 
   heroOrder: FormGroup;
 
-  constructor(private forms: FormBuilder) { }
+  constructor(private forms: FormBuilder, private placeOrderService: PlaceOrderService) { }
+
+  ngOnInit(): void {
+    this.heroOrder = this.createHeroOrderForm();
+  }
 
   get firstName() {
     return this.heroOrder.get('requester.firstName');
@@ -49,12 +54,15 @@ export class PlaceOrderComponent implements OnInit {
       this.heroOrder.value.features.originStory;
   }
 
-  ngOnInit(): void {
-    this.heroOrder = this.createHeroOrderForm();
-  }
-
   onSubmit() {
-    console.log(this.heroOrder.value);
+    const order = this.adaptHeroOrder(this.heroOrder.value);
+    this.placeOrderService.placeOrder(order).subscribe(
+      (_) => {
+        window.alert('Your order has been placed! Thank you for choosing Draw Me A Hero :)');
+        this.heroOrder = this.createHeroOrderForm();
+      },
+      (error) => console.error('Failed to place order', error)
+    );
   }
 
   hasError(control: AbstractControl): boolean {
@@ -70,15 +78,17 @@ export class PlaceOrderComponent implements OnInit {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.images.push(this.forms.group({
-          name: this.forms.control(file.name),
-          type: this.forms.control(file.type),
-          encoding: reader.result.toString().split(',')[0].split(';')[1],
-          value: this.forms.control(reader.result.toString().split(',')[1])
-        }));
-      };
+      reader.onload = () => this.onImageLoaded(reader, file);
     }
+  }
+
+  private onImageLoaded(reader, file) {
+    this.images.push(this.forms.group({
+      name: this.forms.control(file.name),
+      type: this.forms.control(file.type),
+      encoding: reader.result.toString().split(',')[0].split(';')[1],
+      value: this.forms.control(reader.result.toString().split(',')[1])
+    }));
   }
 
   private createHeroOrderForm(): FormGroup {
@@ -110,5 +120,35 @@ export class PlaceOrderComponent implements OnInit {
       }),
       images: this.forms.array([], Validators.required)
     });
+  }
+
+  private adaptHeroOrder(formValue: any) {
+    return {
+      requester: formValue.requester,
+      forRequester: this.isForRequester(formValue),
+      requesteeName: this.resolveRequesteeName(formValue),
+      likes: [formValue.likes],
+      dislikes: [formValue.dislikes],
+      qualities: [formValue.qualities],
+      habits: [formValue.habits],
+      favoriteColors: [formValue.favoriteColors],
+      features: {
+        withNemesis: formValue.features.archEnemy,
+        withOriginStory: formValue.features.originStory
+      },
+      products: this.resolveProducts(formValue)
+    };
+  }
+
+  private isForRequester(formValue: any) {
+    return formValue.heroFor === 'myself';
+  }
+
+  private resolveRequesteeName(formValue: any) {
+    return formValue.requesteeName ? formValue.requesteeName : formValue.requester.firstName + ' ' + formValue.requester.lastName;
+  }
+
+  private resolveProducts(formValue: any) {
+    return Object.keys(formValue.products).filter(product => formValue.products[product]);
   }
 }
