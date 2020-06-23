@@ -86,8 +86,7 @@ export class PlaceOrderComponent implements OnInit {
     this.images.push(this.forms.group({
       name: this.forms.control(file.name),
       type: this.forms.control(file.type),
-      encoding: reader.result.toString().split(',')[0].split(';')[1],
-      value: this.forms.control(reader.result.toString().split(',')[1])
+      data: this.forms.control(reader.result)
     }));
   }
 
@@ -136,7 +135,8 @@ export class PlaceOrderComponent implements OnInit {
         withNemesis: formValue.features.archEnemy,
         withOriginStory: formValue.features.originStory
       },
-      products: this.resolveProducts(formValue)
+      products: this.resolveProducts(formValue),
+      images: formValue.images
     };
   }
 
